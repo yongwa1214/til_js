@@ -304,7 +304,7 @@ let userAgree : 참/거짓 숫자 1자 제한
 
 - number : 숫자
 - string : 글자(문자, 문자열로 구분)
-- boolean : true/false (나중에 falshy 한 것 알아야함)
+- boolean : true/false (나중에 falsy 한 것 알아야함) [3.5.참조]
 - undefined : 값이 없어요. (변수 초기값으로 자동 셋팅)
 - null : 개발자가 값이 없다고 지정함.(값이 비었다로 셋팅하라)
 - symbol : 지구가 망해도 절대로 겹치지 않는 변수이다.(상수에 가깝다)
@@ -505,7 +505,7 @@ banner[0];
 banner[1];
 ```
 
-## 2. 변수 종합 예제
+### 1.7. 변수 종합 예제
 
 - 인터파크 티켓 랭킹 작업
 
@@ -629,12 +629,12 @@ const ticket_2 =
 
 ```
 
-## 3. 연산자(Operator)
+## 2. 연산자(Operator)
 
 - 연산을 해서 결과값을 만드는 `기호`
 - 연산자에 의한 새로운 `결과값이 나오는 것을 연산식`
 
-### 3.1. 사칙연산(`+ - * /`)
+### 2.1. 사칙연산(`+ - * /`)
 
 ```js
 const numA = 0;
@@ -710,4 +710,363 @@ const resultA = `${numA} + ${numB} = ${numA + numB}`;
 const resultB = `${numA} - ${numB} = ${numA - numB}`;
 const resultC = `${numA} * ${numB} = ${numA * numB}`;
 const resultD = `${numA} / ${numB} = ${numA / numB}`;
+```
+
+```js
+const a = 1; // number
+const b = "1"; // string
+// 1단계 number ==> string 으로 물어보지 않고 변환(암묵적 데이터 타입 변환)
+// string + string ===> stirng
+const result = a + b; //number + string ===> string
+```
+
+- `- 연산자`
+
+```js
+const numA = 100;
+const numB = 10;
+const result = numA - numB; //90
+```
+
+```js
+const numA = "100"; // string
+const numB = 10; // number
+// string 을 number 로 암묵적 변환
+// number - number
+const result = numA - numB; //90
+```
+
+```js
+const numA = "ABC"; // string
+const numB = 10; // number
+// string 을 number 로 암묵적 변환 실패
+// number - number
+const result = numA - numB; // NaN ( Not a Number )
+```
+
+- `* /` 연산자
+
+```js
+const numA = 4;
+const numB = 2;
+const resultMulti = numA * numB; // 8
+const resultDevide = numA / numB; // 2
+```
+
+### 2.2 나머지 연산 (`%`)
+
+이럴 때 쓴다
+
+- 총 게시글 52개
+- 한 페이지당 5개 목록
+- 몇 페이지가 필요한가?
+- 마지막 페이지에서 보여주어야 하는 게시글 수?
+
+```js
+const total = 52;
+const count = 5;
+const totalPage = total / count; // 소숫점 나옴
+const totlaPageNumber = Math.ceil(totalPage); // 올림
+const lastCount = total % count; // 나머지 나옴
+```
+
+### 2.3 복합연산자 (연산 타이핑 수를 줄인다.)
+
+```js
+const numA = 5;
+let result = numA + 3; // 5 + 3 = 8
+
+// 코딩에 의한 가독성이 떨어집니다.
+// 그런데 PG 들은 많이 사용하는 방식입니다.
+
+// result = result + 10; 줄여서 작성함
+result += 10; // 18
+
+// result = result - 5;
+result -= 5; // 13
+
+// result = result * 4;
+result *= 4; // 52
+
+// result = result / 2;
+result /= 2; // 26
+
+// result = result % 2;  % 는 나머지 연산자, 모듈러 연산자
+result %= 2; // 0
+```
+
+### 2.4. 증감연산자 ( ++ -- )
+
+- 개발자는 타이핑 수를 줄이려고 노력합니다.
+
+몰랐으면 합니다...
+
+```js
+let num = 5;
+num = num + 1;
+num += 1;
+num++; // 후치연산. ++는 +1 이다.
+++num;
+```
+
+```js
+let num = 5;
+num = num - 1;
+num -= 1;
+num--; // --는 -1 이다.
+--num;
+```
+
+```js
+let num = 20;
+
+// 후에 배치된 후치연산 이라서
+let numA = num--; // numA 에는 20입니다. 그리고 연산
+num; // 19
+```
+
+```js
+let num = 20;
+
+// 전에 배치된 전치연산이라서
+let numA = --num; // numA 에는 19입니다. 그리고 연산
+num; // 19
+```
+
+- ++는 정말 많이 사용합니다. 어디다 사용할까
+  이런식으로 사용한다
+
+```js
+const arr = ["a","b","c"]
+let num = 0;
+arr[num] ==> "a"
+arr[num++] ==> "b"
+arr[num++] ==> "c"
+
+//변수에 안 담는다 (아래 같은 식으로는 안 쓴다는 뜻)
+let a = ++num
+arr[a] ==> b
+```
+
+### 2.5. 논리연산자
+
+- `무조건 이해` 하셔야 합니다.
+- `falsy` 한 값의 종류 (js에서 false 라고 판단하는 값)
+
+```js
+"";
+0;
+undefined;
+null;
+NaN;
+false;
+```
+
+- 최종 결과가 true 인지 false 인지 결과를 변수에 저장
+
+### 2.5.1. OR 연산자 (또는)
+
+- 2개 중 1개만 true 이면 true, 나머지 false
+
+```js
+let result = true || true; //연산 1번(연산 횟수를 줄이니 참인 값을 앞에 넣는게 좋습니다)
+result = false || false;
+result = false || true; // 연산 2번
+result = "" || true;
+
+// const userPass; const를 사용하면 무조건 값을 넣어야한다.
+let userPass; // let은 괜찮습니다. 값이 없으면 undefined입니다
+result = userPass || "비밀번호 넣으세요."; // 참이네
+```
+
+#### 2.5.2. AND 연산자 (그리고)
+
+- 둘 다 ture 면 true, 아니면 false
+- 변수에 결과값은 true, false 가 담긴다.
+
+```js
+let result = true && true; //true
+result = false && true; // 이건 false 가 앞에 오는 게 좋음 (성능 고려는 할 거 없고 여유있을 때 하십쇼)
+result = false && false;
+```
+
+#### 2.5.3. Not 연산자 (반대)
+
+```js
+let result = !true;
+result = !false;
+```
+
+#### 2.5.4. 실습 예제
+
+```js
+let nickName = "";
+let displayName = nickName || "Guest";
+console.log(displayName); //Guest
+```
+
+```js
+let title = null;
+let result = title || "제목 없음";
+console.log(result); // 제목 없음
+```
+
+```js
+let totalMoney = 0;
+let result = totalMoney || "장바구니가 비었습니다.";
+console.log(totalMoney); // 장바구니가 비었습니다.
+```
+
+```js
+let isLogin = true;
+let result = inLogin && "환영합니다.";
+console.log(result); //환영합니다.
+```
+
+```js
+let isAdmin = false;
+let result = isAdmin && "관리자 메뉴 표시";
+console.log(result); // false
+```
+
+```js
+let config = {};
+config.theme = config.theme: || "light";
+console.log(config); // { theme: "light" }  보통 초기값 셋팅 할 때 많이 씀 theme가 없으면 light 를 쓰겠다 뭐 그런 느낌
+```
+
+```js
+let config = {theme: red};
+config.theme = config.theme: || "light"; //config.theme 가 참이므로 뒤에 light까지 실행될 이유가 x
+console.log(config); // { theme: "red"} Light 반영X
+```
+
+```js
+let options = {
+  lang: null,
+  fontSize: 0,
+};
+let lang = options.lang || "ko";
+let fontSize = options.fontSize || 20;
+// 사용자가 지정한 언어와 폰트사이즈가 없을 시 디폴트 값은 ko, 20이다
+```
+
+### 2.6. 비교연산자
+
+- 정말 중요합니다.
+
+```js
+// ==은 같다를 뜻한다. 데이터 값의 종류는 비교하지 않음
+let resultA = "1" == 1; // true
+
+// 데이터 값과 데이터 종류도 비교함
+let resultB = "1" === 1; // false 종류가 달아서 false
+
+let resultC = 1 > 2;
+let resultD = 1 < 2;
+let resultE = 1 <= 2;
+let resultF = 1 <= 2;
+let resultG = 1 != 2; // 다르냐를 비교함 다르니까 true
+let resultH = 1 !== 2; // 종류도 다르냐를 비교함
+```
+
+### 2.7. 병합연산자
+
+- 내가 FrontEnd라면 반드시 알아야함
+- 일반적으로 기본값 셋팅에서 활용
+- falsy 가 아니라 `null, undefined` 일 때만 값을 비교할 경우
+- 아래에서 기대한 코드는 `0` 값이 나오길 기대하고 코드 진행.
+
+```js
+let userPoint = 0;
+let displayPoint = userPoint || "500000";
+console.log(displayPoint); // 500000
+```
+
+- `??` 연산자는 null 과 undefined 만 비교한다.
+- 나머지는 `||` 과 같다.
+
+```js
+let userPoint = 0; // undefined, null 이 아니다.
+let displayPoint = userPoint || "500000";
+console.log(displayPoint); // 0
+```
+
+```js
+let formInput = {
+  name: "",
+  email: null,
+  phone: undefined,
+};
+const name = formInput.name ?? "이름 없음";
+const email = formInput.email ?? "이메일 없음";
+const phone = formInput.phone ?? "전화 없음";
+```
+
+### 2.8. 옵셔널체이닝(`?.`)
+
+- FE라면 알아야합니다.
+- 대상은 객체의 속성 여부에 따라 코드 진행
+- `{ 속성 : 값, }`
+
+```js
+const user = {
+  profile: { age: 10, name: "홍길동" },
+};
+const age = user.profile.age;
+// 이건 실행된다
+```
+
+```js
+const user = {
+  profile: null,
+};
+const age = user.profile.age;
+// null Error 발생 후 서비스 멈춤 페이지가 다운된다...
+```
+
+```js
+const user = {
+  profile: null,
+};
+const age = user.profile?.age ?? "정보가 없어서 나이정보를 몰라요";
+// ?.는 옵션, age가 있으면 나오고 없으면 undefined,
+// ?? 이 들어가서 "정보가 없어서 나이정보를 몰라요" 가 출력됨
+```
+
+### 2.9. 3항 연산자
+
+- 연산자가 3개라서 3항 연산자라고 합니다.
+- `결과 = 조건식 ? 참일 때 결과: 거짓일 떄 결과`(연산자 = ? :)
+- 활용 빈도가 정말 높습니다.
+
+```js
+const userRole = "ADMIN"; // 사용자 등급
+//const url = 조건 ? 참 : 거짓;
+const url = userRole === "ADMIN" ? "admin.html" : "guest.html"; 
+// 참이면 admin.html로 거짓이면 guest.html로 결과를 담는다.
+```
+
+```js
+const age = 10;
+const result = age < 19 ? "동의서 필요" : "성인 인증";
+```
+
+```js
+const goodCount = 10;
+const result = goodCount > 0 ? "재고가 있어요" : "재고가 없어요";
+```
+
+```js
+const user = {
+  isLogin: true,
+  name : "아이유", 
+}; 
+const result = user?.isLogin ? `${user?.name}님 반가워요. ` : "로그인 해주세요." ;
+```
+
+```js
+// 홀짝 구분
+let num = 5;
+let result = num % 2 === 0 ? "짝수" : "홀수"
 ```
