@@ -1043,7 +1043,7 @@ const age = user.profile?.age ?? "정보가 없어서 나이정보를 몰라요"
 ```js
 const userRole = "ADMIN"; // 사용자 등급
 //const url = 조건 ? 참 : 거짓;
-const url = userRole === "ADMIN" ? "admin.html" : "guest.html"; 
+const url = userRole === "ADMIN" ? "admin.html" : "guest.html";
 // 참이면 admin.html로 거짓이면 guest.html로 결과를 담는다.
 ```
 
@@ -1060,13 +1060,440 @@ const result = goodCount > 0 ? "재고가 있어요" : "재고가 없어요";
 ```js
 const user = {
   isLogin: true,
-  name : "아이유", 
-}; 
-const result = user?.isLogin ? `${user?.name}님 반가워요. ` : "로그인 해주세요." ;
+  name: "아이유",
+};
+const result = user?.isLogin
+  ? `${user?.name}님 반가워요. `
+  : "로그인 해주세요.";
 ```
 
 ```js
 // 홀짝 구분
 let num = 5;
-let result = num % 2 === 0 ? "짝수" : "홀수"
+let result = num % 2 === 0 ? "짝수" : "홀수";
 ```
+
+## 3. 조건문(Condition)
+
+### 3.1. if 문
+
+- `참/거짓`을 판단하여 코드 분기 실행함.
+
+- 모양 1.
+
+```js
+if(조건){
+  조건이 참이면 실행;
+}
+```
+
+- 모양 2.
+
+```js
+if(조건){
+  조건이 참이면 실행;
+}else{
+  조건이 거짓이면 실행;
+}
+```
+
+-모양 3.
+
+```js
+if(조건1){
+  조건이 참이면 실행;
+}
+else if(조건2){
+  조건이 참이면 실행;
+}
+else if(조건3){
+  조건이 참이면 실행;
+}
+else{
+  모든 조건에 거짓이면;
+}
+```
+
+-예제) 로그인이 된 경우에 메세지 출력하기
+
+```js
+const isLogin = true;
+
+if (isLogin === true) {
+  console.log("로그인하셨네요. 반갑습니다.");
+}
+
+// 실제로는 아래 구문으로 사용한다.
+if (isLogin) {
+  console.log("로그인하셨네요. 반갑습니다.");
+}
+
+// 아래처럼 하시면 힘들어요. 코드 가독성이 떨어집니다.
+// 아래처럼 사용하시려면 출력내용이 하나 뿐이여야 합니다.
+//(두 개면 두번째는 조건이 참,거짓 상관없이 무조건 출력됨 )
+if (isLogin) console.log("로그인하셨네요. 반갑습니다.");
+```
+
+- 예제) 로그인 된 경우의 메시지와 로그인 안된 경우의 메시지 출력하기.
+
+```js
+const isLogin = true;
+
+if (isLogin) {
+  console.log("어서오세요.");
+} else {
+  console.log("로그인 하셔야 합니다.");
+}
+```
+
+- 예제) 나이에 따라서 다른 메시지 출력하기(조건이 2개 이상인 경우)
+
+```js
+const age = 19;
+
+if (age >= 60) {
+  console.log("어르신이시네요.");
+} else if (age >= 50) {
+  console.log("50대 이시네요.");
+} else if (age >= 40) {
+  console.log("40대 이시네요.");
+} else if (age >= 30) {
+  console.log("30대 이시네요.");
+} else if (age >= 20) {
+  console.log("청년 이시네요.");
+} else {
+  console.log("미성년 이시네요.");
+}
+```
+
+- 예) 사용자가 입력한 항목이 값이 `없을 경우` 메시지 보내기 (필수 입력 사항)
+
+```js
+const name = "홍길동";
+const pass = "1234";
+const useInfoCheck = false; // 사용자 정보 활용 동의
+const useEmailCheck = false; // 이메일 수신 동의
+
+if (name === "") {
+  alert("이름을 입력하세요.");
+  return;
+  //name이 참이 될때까지 밑에 구문들은 실행 안한다
+  //return을 적지 않으면 밑에 구문도 실행됨
+}
+// 위 아래 둘 다 가능
+if (!name) {
+  alert("이름을 입력하세요.");
+  return;
+}
+//
+
+// 이건 1,2 합친거 조건을 합칠 수도 있습니다
+if (name === "" || !name) {
+  alert("이름을 입력하세요.");
+}
+
+if (pass === "") {
+  alert("비밀번호 입력하세요.");
+  return;
+}
+
+if (!pass) {
+  alert("비밀번호 입력하세요.");
+  return;
+}
+
+if (!useInfoCheck) {
+  // useInfoCheck가 false면 아래를 출력함 (useInfoCheck === false)도 가능
+  alert("개인정보 동의를 체크하세요"); //flase인게 참이다
+  return;
+}
+
+if (!useEmailCheck) {
+  alert("이메일 수신 동의를 체크해주세요.");
+  return;
+}
+
+console.log("저희 서비스를 자유롭게 활용하세요.");
+```
+
+### 3.2. switch 문
+
+- `여러 개의 값` 중 하나의 `값`이 같은지 판단 후 실행 (값을 비교)
+
+```js
+switch (값) {
+  case 비교값1:
+                  실행 코드
+    break;
+  case 비교값2:
+                  실행 코드
+    break;
+  case 비교값3:
+                  실행 코드
+    break;
+  default:
+                  실행 코드
+    break;
+}
+// break없으면 쭉 내려감
+```
+
+- 예) 엘리베이터 층 예제
+
+```js
+// 얘는 값을 바로 찾아감 if는 순서대로 확인함
+const layer = 5; // 값
+switch (layer) {
+  case 1:
+    console.log("1층 내리세요.");
+    break;
+  case 2:
+    console.log("2층 내리세요.");
+    break;
+  case 3:
+    console.log("3층 내리세요.");
+    break;
+  case 4:
+    console.log("4층 내리세요.");
+    break;
+  case 5:
+    console.log("5층 내리세요.");
+    break;
+  default:
+    console.log("당신이 내릴 층이 없습니다.");
+    break;
+}
+```
+
+- if 와 switch 종합 예제
+
+```js
+const userRole = "ADMIN";
+
+// if문
+if (userRole === "MEMBER") {
+  console.log("회원");
+} else if (userRole === "ADMIN") {
+  console.log("관리자");
+} else {
+  console.log("비회원");
+}
+
+// switch 문
+switch (userRole) {
+  case "MEMBER":
+    console.log("회원");
+    break;
+  case "ADMIN":
+    console.log("관리자");
+    break;
+  default:
+    console.log("비회원");
+    break; // 마지막 break는 없어도 됨
+}
+```
+
+## 4. 반복문(Loop)
+
+- 동일한 실행을 반복하는 문법
+
+### 4.1. for 구문
+
+- 주어진 `횟수만큼` 반복 실행 (개발자가 반복횟수를 아는 경우)
+
+```js
+// 조건식이 없거나 증감식이 없으면 무한루프 걸리다가 컴퓨터 다운됩니다
+// 초기값은 단 한번만 실행
+// 조건식의 결과가 true/false 참이면 실행
+// 증감식은 조건식을 false 로 만들기 위한 것
+for(초기값; 조건식; 증감식){
+  할일 코드 작성
+}
+```
+
+```js
+const total = 10; // 총 반복횟수
+
+for (let i = 0; i < total; i++) {
+  console.log(`현재 ${i} 입니다.`);
+}
+```
+
+- 예제) 총 합계 값 알아내기
+
+```js
+// 장바구니 담긴 제품 가격 모음.
+const bucketsArr = [1000, 500, 700, 400];
+// 반복 횟수
+const total = bucketsArr.Length; //알아서 길이를 세어줌
+// 반복문 없다면
+let totalPrice = bucketsArr[0] + bucketsArr[1] + bucketsArr[2] + bucketsArr[3];
+// 반복문을 확용한다면
+
+let totalPriceFor = 0;
+for (let i = 0; i < total; i++) {
+  totalPriceFor = totalPriceFor + bucketsArr[i];
+  // totalPriceFor += bucketsArr[i];
+}
+```
+
+- 예) 제품의 이름과 가격 및 재고를 html 태그로 출력하는 예제
+- 예) 백엔드에서 제품의 목록은 json으로 주어진다.
+
+```js
+// 백엔드에서 가져온 자료 json
+const goodData = [
+  { id: 542, name: "사과", price: 1000, stock: 10 },
+  { id: 5557, name: "딸기", price: 200, stock: 0 },
+  { id: 2147, name: "키위", price: 5000, stock: 5000 },
+];
+// 반복 횟수
+const total = goodData.Length;
+
+for (let i = 0; i < total; i++) {
+  // 제품 1개를 뽑아서 보관한다.
+  const good = goodData[i];
+  // html 만들기
+  const tag = `<div id="${good.id}" class="good-box">
+    <p> 제품명 : ${good.name}</p>
+    <p> 가격 : ${good.price}</p>
+    <p> 재고수량 : ${good.stock || "재고가 없어요"}</p>
+    </div>`;
+}
+```
+
+- 예) 구구단
+- for 문에서 `break` 는 반복문 빠져나오고 종료하기, 빠져나올 때는 가장 가까운 for문을 빠져나온다
+- 가까운 for 문에서 `continue`는 반복문 실행 건너뛰고 계속 실행.
+
+```js
+const total = 9;
+for(let i = 1; i <= total; i++ ){
+  if( i === 6 ) {
+    break; // 종료하기
+  }
+    console.log(i + " 단"); //여기까지하면 1 단, 2 단 ··· 이것만 나온다
+
+  for(let j = 1; j <=total; j++){
+     if( j === 6 ) {
+    break;
+  }
+    console.log(` ${i} * ${j} = ${i * j}`);
+  }
+
+//-------
+const total = 9;
+for(let i = 1; i <= total; i++ ){
+  if( i % 3 === 6 ) {
+    continue; // 건너뛰기
+  }
+    console.log(i + " 단");
+} // 이러면 6단 까지 출력되는 중에 3,6단은 건너뛰고 출력함.
+```
+
+### 4.2. for in 구문
+
+- for 문으로 모두 가능하다
+- for 를 `객체를 대상`으로 편리하게 사용하도록 지원하는 문법
+
+```js
+const singer = {
+  id: "123",
+  name: "아이유",
+  age: 30,
+  city: "서울",
+};
+
+// 개발자가 직접 알아내는 경우
+// console.log(singer.id);
+// console.log(singer.name);
+// console.log(singer.age);
+
+// 반복문 활용
+for (let key in singer) {
+  console.log(key);
+  console.log(singer[key]); //for in에서는 .이 아니라 []로 접근한다
+}
+
+const bts = {
+  id: "123",
+  name: "bts",
+  age: [30, 20, 33],
+  city: "서울",
+};
+
+for (let key in bts) {
+  console.log(`${key} : ${bts[key]}`); //<< 한번에 쓰는 법
+}
+```
+
+### 4.3. for of 구문
+
+- for 문으로 모두 가능하다
+- for 를 `배열, 문자열 등을 대상`으로 편리하게 사용하도록 지원하는 문법
+- `iterator` 즉, `순서가 있는 데이터형`에서 사용
+
+```js
+const citiesArr = ["대구", "부산", "서울"];
+for (let city of citiesArr) {
+  console.log(city);
+}
+
+// 와 문자열은 하나씩 뜯어줌 공백까지도
+const words = "안녕하세요. 반가워요.";
+for (let i of words) {
+  console.log(i);
+}
+```
+
+### 4.4. while 구문
+
+- `조건인 참`인 동안 무한히 반복함.
+- 반복에 횟수를 모르는 경우
+
+```js
+// 이거 하려면 auto save 꺼야함 안그러면 무한 반복됩니다
+// 가능하면 쓰지마시라고 하네요
+while (조건) {
+  할일;
+  반드시 거짓으로 만들어야 합니다.
+  //안그러면 무한 루프
+}
+
+
+let count = 0;
+
+while (count < 5) {
+  // 거짓을 만들기 위한 조건을 작성함
+  count = count + 1;
+  console.log(count);
+}
+```
+
+### 4.5. do while 구문
+
+- while 과 다르게 일단 실행하고 조건 검사
+
+```js
+// 추천하진 않습니다
+do {
+  할일;
+} while (조건);
+```
+
+```js
+let count = 0;
+
+do {
+  // 거짓을 만들기 위한 조건을 작성함
+  count = count + 1;
+  console.log(count);
+} while (count < 5);
+```
+
+## 5. 함수(funtion)
+
+- 기능을 `{}`(블락이라고 함) 묶어서 관리
+- 여러번 재활용한다.
+- 문서 즉 설명서(JSDoc)가 잘 만들어져야 함.
+- 기능 예외처리를 잘 해야 한다.
