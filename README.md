@@ -766,7 +766,7 @@ const resultDevide = numA / numB; // 2
 const total = 52;
 const count = 5;
 const totalPage = total / count; // 소숫점 나옴
-const totlaPageNumber = Math.ceil(totalPage); // 올림
+const totalPageNumber = Math.ceil(totalPage); // 올림
 const lastCount = total % count; // 나머지 나옴
 ```
 
@@ -1039,6 +1039,7 @@ const age = user.profile?.age ?? "정보가 없어서 나이정보를 몰라요"
 - 연산자가 3개라서 3항 연산자라고 합니다.
 - `결과 = 조건식 ? 참일 때 결과: 거짓일 떄 결과`(연산자 = ? :)
 - 활용 빈도가 정말 높습니다.
+- 조건식에는 boolean만 가능
 
 ```js
 const userRole = "ADMIN"; // 사용자 등급
@@ -1493,7 +1494,564 @@ do {
 
 ## 5. 함수(funtion)
 
-- 기능을 `{}`(블락이라고 함) 묶어서 관리
-- 여러번 재활용한다.
+- 각 독립된 역할별 기능을 `{}`(블락이라고 함) 묶고 `function 함수명()` 를 주어서 관리
+- 여러번 재활용(`호출, call`)한다. : `함수명()`
 - 문서 즉 설명서(JSDoc)가 잘 만들어져야 함.
 - 기능 예외처리를 잘 해야 한다.
+
+### 5.1. 함수가 왜 필요하지?
+
+- 반복되는 1줄 이상의 코드가 있다면 함수라는 것을 만들 생각해 보자
+- 코드에 대한 가독성이 필요하면 함수라는 것을 만들 생각해 보자
+- 한번에 코드를 수정하여 다양한 곳에 동시에 반영되는 것을 원하면 함수라는 것을 만들 생각 해보자
+- 코드에 안정성을 생각한다면 함수라는 것을 만들 생각해 보자.
+- 협업을 한다면 기능을 만들어서 재활용하여야 하며 이때 함수라는 것을 만들 생각해 보자
+
+```js
+let user_1 = "홍길동";
+let user_2 = "김길동";
+let user_3 = "박길동";
+let user_4 = "고길동";
+let user_5 = "정길동";
+
+console.log(user_1 + "님 반가워요.");
+console.log(user_2 + "님 반가워요.");
+console.log(user_3 + "님 반가워요.");
+console.log(user_4 + "님 반가워요.");
+console.log(user_5 + "님 반가워요.");
+```
+
+- 기능을 구분해서 관리하고 시팓. (여기서는 회원명단 및 인사 기능)
+
+```js
+// 아래는 사용자의 명단과 반가워요라는 메세지를 출력하는 기능이다.
+funciton useMember() {
+  let user_1 = "홍길동";
+let user_2 = "김길동";
+let user_3 = "박길동";
+let user_4 = "고길동";
+let user_5 = "정길동";
+
+console.log(user_1 + "님 반가워요.");
+console.log(user_2 + "님 반가워요.");
+console.log(user_3 + "님 반가워요.");
+console.log(user_4 + "님 반가워요.");
+console.log(user_5 + "님 반가워요.");
+
+}
+
+// 함수활용(=함수 호출 = 함수 call)
+useMember();
+```
+
+### 5.2. 함수 만들기
+
+```js
+// 함수 이름은 동사로 짓는다.
+function 함수명() {
+  기능1;
+  기능2;
+  기능3;
+}
+
+function 함수명(재료1, 재료2, 재료3) {
+  재료1 처리 기능1;
+  재료2 처리 기능2;
+  재료3 처리 기능3;
+}
+```
+
+### 5.3. 계산기 만들기
+
+- 단계 1.
+
+```js
+// 계산기 만들기
+const result_1 = 5 + 4;
+const result_2 = 8 + 3;
+const result_3 = 7 + 2;
+const result_4 = 6 + 1;
+```
+
+- 단계 2.
+
+```js
+// 계산기 만들기
+function result_1() {
+  5 + 4;
+}
+function result_2() {
+  8 + 3;
+}
+function result_3() {
+  7 + 2;
+}
+function result_4() {
+  6 + 1;
+}
+```
+
+- 단계 3. 재료만 다르고 하는 일은 + 기능이더라
+
+```js
+// 계산기 만들기
+function result_1(재료1, 재료2) {
+  재료1 + 재료2;
+}
+add(5, 4);
+add(8, 3);
+add(7, 2);
+add(6, 1);
+```
+
+- 단계 4. minus 기능 만들기
+
+```js
+function minus(매개변수1, 매개변수2) {
+  매개변수1 - 매개변수2;
+}
+minus(5, 4);
+```
+
+- 단계 5. 기능에 예외처리(오류 처리) 적용하기
+- 오류: 원하지 않는 결과, Error도 모두 포함해서 오류라 생각합니다.
+
+```js
+function add(매개변수1, 매개변수2) {
+  // 방어코드 (예외처리)
+  if (매개변수1 === undefined) {
+    return alert("매개변수 1 을 입력하세요.");
+  }
+  if (매개변수2 === undefined) {
+    return alert("매개변수 2 을 입력하세요.");
+  }
+  매개변수1 + 매개변수2;
+}
+
+function minus(매개변수1, 매개변수2) {
+  매개변수1 - 매개변수2;
+}
+
+add(5, "100"); // 원하지 않는 결과이므로 오류
+add(5, undefined); // 원하지 않은 결과이므로 오류
+add(5); // 원하지 않는 결과이므로 오류
+```
+
+### 5.4. JSDoc 으로 함수 사용에 대해서 안내(설명서)하기
+
+- JSDoc 기본 이해
+- 재료(매개변수)를 parameter라고 합니다.
+
+```js
+/**
+ * 두개의 변수를 받아서 덧셈하는 기능
+ * @param {number} numA - 첫번째 숫자
+ * @param {number} numB - 두번째 숫자
+ * @returns {number} 두 숫자의 덧셈결과
+ */
+function add(numA, numB) {
+  if (numA === undefined) {
+    return alert("첫번째 매개 변수 입력해주세요.");
+  }
+  if (numB === undefined) {
+    return alert("두번째 매개 변수 입력해주세요.");
+  }
+  return numA + numB;
+}
+```
+
+### 5.5. JSDoc 을 이용한 계산기 함수 만들어보기
+
+````js
+/**
+ * 숫자 더하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @return {number} 덧셈 결과
+ */
+function add(a, b) {
+  return a + b;
+}
+
+/**
+ * 숫자 빼기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 뺄셈 결과
+ */
+function minus(a, b) {
+  return a - b;
+}
+
+/**
+ * 숫자 곱하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 곱셈 결과
+ */
+function multi(a, b) {
+  return a * b;
+}
+/**
+ * 숫자 나누기 기능
+ * @param {number} a - number
+ * @param {number} b - number
+ * @returns {number} - 나눗셈 결과
+ *
+ * ------ 호출예 -----
+ * ```javascript
+ * let result = divide(5, 4)
+ * ```
+ *
+ */
+function divide(a, b) {
+  if (b === 0) {
+    return alert("분모는 0 이 아니어야 합니다.");
+  }
+  // 데이터 알아내고, 타입 비교하기
+  if (typeof a !== "number") {
+    return alert("분자는 숫자여야 합니다.");
+  }
+  if (typeof b !== "number") {
+    return alert("분모는 숫자여야 합니다.");
+  }
+
+  return a / b;
+}
+
+// 덧셈 사용
+const resultAdd = add(5, 4);
+const resultMinus = minus(5, 4);
+const resultMulti = multi(5, 4);
+const resultDivide = divide(5, 0);
+````
+
+- 추가 함수
+
+````js
+/**
+ * 숫자 더하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} 덧셈 결과
+ */
+function add(a, b) {
+  return a + b;
+}
+
+/**
+ * 숫자 빼기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 뺄셈 결과
+ */
+function minus(a, b) {
+  return a - b;
+}
+
+/**
+ * 숫자 곱하기 기능
+ * @param {number} a
+ * @param {number} b
+ * @returns {number} - 곱셈 결과
+ */
+function multi(a, b) {
+  return a * b;
+}
+/**
+ * 숫자 나누기 기능
+ * @param {number} a - number
+ * @param {number} b - number
+ * @returns {number} - 나눗셈 결과
+ *
+ * ------ 호출예 -----
+ * ```javascript
+ * let result = divide(5, 4)
+ * ```
+ *
+ */
+function divide(a, b) {
+  if (b === 0) {
+    return alert("분모는 0 이 아니어야 합니다.");
+  }
+  // 데이터 알아내고, 타입 비교하기
+  if (typeof a !== "number") {
+    return alert("분자는 숫자여야 합니다.");
+  }
+  if (typeof b !== "number") {
+    return alert("분모는 숫자여야 합니다.");
+  }
+
+  return a / b;
+}
+
+/**
+ * 계산기 기능
+ * 계산기 기능은 +, -, *, / 기능이 있습니다.
+ * @param {string} symbol  +, -, *, / 기호 중 1개 입력
+ * @param {number} a 숫자 입력
+ * @param {number} b 숫자 입력
+ * @returns {number} 결과는 숫자
+ *
+ * 사용 예) =================
+ *
+ * ```javascript
+ * const result = calcurator("+", 5, 4);
+ * ```
+ */
+function calcurator(symbol, a, b) {
+  if (typeof symbol !== "string") {
+    return alert("기호를 입력하세요.");
+  }
+  let result = 0;
+
+  switch (symbol) {
+    case "+":
+      result = add(a, b);
+      break;
+    case "-":
+      result = minus(a, b);
+      break;
+    case "/":
+      result = divide(a, b);
+      break;
+    case "*":
+      result = multi(a, b);
+      break;
+    default:
+      return alert("올바른 기호를 입력해 주세요.");
+  }
+
+  return result;
+}
+````
+
+### 5.6. 다양한 함수 예제
+
+```js
+/**
+ * 메시지를 콘솔에 출력하기
+ * @param {string} message - 출력할 메시지
+*/
+funciton showMessage(message) {
+  console.log(message);
+}
+showMessage("안녕");
+showMessage("홍길동 반가워");
+```
+
+```js
+/**
+ * 배열을 받아서 요소를 출력하는 함수
+ * @param { number[] } arr - 숫자모음 배열
+ */
+function showArr(arr) {
+  for (let i = 0; i < arr.length; i++) {
+    console.log(arr[i]);
+  }
+}
+```
+
+```js
+/**
+ * 객체의 속성 값을 출력하는 기능
+ * @param { {id: number, nickName:string, age: number} } user - 사용자 객체
+ */
+function showUser(user) {
+  console.log(user.ic);
+  console.log(user.nickName);
+  console.log(user.age);
+}
+```
+
+### 5.7. 함수의 기본 값 설정하기
+
+````js
+/**
+ * 나이를 10살 더하여서 출력함.
+ * @param {number} age - 현재 나이 입력
+ * ```javascript
+ * const result = showAge(10); // 20
+ * ```
+ */
+function showAge(age = 0) {
+  //매개변수 기본값이 0, = 0 이 없다면 입력하지 않을시 undefined로 정의됨
+  return age + 10;
+}
+````
+
+### 5.8. 매개변수의 총 개수 자동으로 알아내기
+
+```js
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * @param {number} numbers - 숫자 값
+ */
+function showTotal(a, b) {
+  return a + b; // 이러면 두 개만 더해줌
+}
+
+showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+
+// -------------------
+// 이건 예전 문법(2015이전)
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * @param {number} numbers - 숫자 값
+ */
+
+function showTotal() {
+  console.log(arguments);
+  let total = 0;
+  for (let i = 0; i < arguments.length; i++) {
+    total = total + argumets[i];
+  }
+  return total;
+}
+
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+- Rest 파라메터는 전달된 매개변수에 `정확한 값만 배열`로 만든다.
+
+```js
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * Rest 파라메터 이용하기
+ * @param {number} numbers - 숫자 값
+ */
+function showTotal(...rest) {
+  console.log(rest);
+  let total = 0;
+  for (let i = 0; i < rest.length; i++) {
+    total = total + rest[i];
+  }
+  return total;
+}
+
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+- Rest 파라메터는 기본 매개변수 적용 후, `나머지를 배열로 추출`한다.
+
+```js
+/**
+ * 입력된 매개 변수 만큼 총합계산하기
+ * Rest 파라메터 이용하기
+ * @param {number} numbers - 숫자 값
+ */
+function showTotal(a, b, ...rest) {
+  // a,b 처리하고 나머지(6~0까지) 나온다
+  console.log(a);
+  console.log(b);
+  console.log(rest);
+  let total = 0;
+  for (let i = 0; i < rest.length; i++) {
+    total = total + rest[i];
+  }
+  return total;
+}
+
+const result = showTotal(4, 5, 6, 7, 8, 9, 1, 2, 0);
+```
+
+## 6. 함수 선언법을 꼭 이해하자
+
+- 1. 일반적 함수 만드는 법
+- 함수를 정의한 것
+
+```js
+function 함수명(매개변수) {
+  return 결과값;
+}
+
+//함수 호출시
+함수명(매개변수); //const 변수명 = 함수명(매개변수) 이렇게 아닌가..?
+```
+
+- 2. `변수의 값`으로 함수를 만드는 법
+- 함수를 값으로 담아둔 것
+
+```js
+const 변수명 = function (매개변수) {
+  return 결과값;
+};
+
+변수명(매개변수);
+```
+
+- 3. `왜 변수명 = function 형태`가 필요하지?
+
+```js
+function add() {
+  return 1 + 2;
+}
+// add();
+
+const addFun = function () {
+  return 1 + 2;
+};
+// addFun();
+
+const minusFun = function () {
+  return 1 - 2;
+};
+
+function test(_func) {
+  _func();
+}
+
+test(add); // 값이 아니라서 안된다.
+
+test(addFun);
+test(minusFun);
+```
+
+- 아래 코드는 특히 위치를 살펴보자. : 완성하고 사용하자.
+
+```js
+add(); // 호이스팅이 되므로 괜찮다.
+addFN(); // 호이스팅 에러 발생.(주의하자) 얘는 변수임 변수 선언도 안했는데 어케 사용하니
+function add() {}
+const addFN = function () {};
+```
+
+## 7. 함수 추가 정리
+
+### 7.1. 함수를 만들 시점 (언제 함수를 만들까에 대한 안내)
+
+#### 7.1.1. 코드가 너무 긴 경우(`하나의 결과를 만들기 위해서 작성시`)
+
+- 코드 가독성이 너무 떨어져서 추후 분석이 곤란할 때
+- 하나의 결과를 만들기 위한 과정에서 작성중 너무 많은 코드가 작성될 때
+- 여러 줄이 작성되어서 한개의 결과를 만든다면 함수로 묶어서 만들까
+
+#### 7.1.2. 동일한 기능이 여러 번 사용될 때
+
+- 2번 이상 동일한 기능이라면 함수를 만들까? 고민
+- 2번 이상 동일한 기능인데 재료(매개변수)만 다르다? 함수 만들까? 고민
+
+#### 7.1.3. 코드를 누군가에게 주어야 할 때
+
+- 코드를 공유할 때 함수 만들까? 고민
+
+### 7.2. 함수 만드는 법
+
+- `{}`로 코드 블럭을 이용해서 묶어준다.
+- 이름을 짓는데, `동사`로 지어준다.(기본: Camel, 생성자함수: Pascal)
+- 이름 뒤에 `(재료, 재료)` 를 작성한다. [재료 = 매개변수 = parameter | 매개변수가 없을 수 도 있음]
+- function 키워드를 작성해 준다.
+- `JSDoc` 으로 사용설명서를 작성해 주면 좋겠다.
+
+### 7.3. 함수 사용법(`호출, call`)
+
+- 함수명();
+- 함수명을 호출(call)했다.
+
+### 7.4. 함수 샘플
+
+- 넓이를 계산하는 기능, 그런데 2번 이상 사용, 누군가에게 공유
+
+```js
+
+```
