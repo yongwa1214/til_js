@@ -2052,6 +2052,406 @@ const addFN = function () {};
 
 - 넓이를 계산하는 기능, 그런데 2번 이상 사용, 누군가에게 공유
 
-```js
+````js
+/**
+ * 너비를 계산해 주는 함수
+ * @param {number} _width
+ * @param {number} _height
+ * @return {number}
+ * -- 함수 사용 예 --
+ * ```js
+ * const result = calcRect(5, 4);
+ * ```
+ */
+function calcRect(_width = 0, _height = 0) {
+  // 추후에 무수하게 예외처리 코드가 작성된다.
+  // 업데이트 진행
+  return _width * _height;
+}
+// 함수 호출
+const result = calcRect(5, 4);
+console.log(result);
+````
 
+### 7.5. 함수에 추가 지식
+
+- 매개변수에 기본값을 지정할 수 있다.
+
+```js
+function 함수명(매개변수 = 기본값) {}
+function 함수명(매개변수 = 기본값) {}
 ```
+
+- 매개변수 개수에는 제한이 없다.
+
+```js
+function 함수명(매개변수1, 매개변수2) {
+  const params = arguments; // 배열로 접근 가능
+}
+
+함수명(1, 2, 3, 4, 5);
+```
+
+```js
+function 함수명(매개변수1, 매개변수2, ...res) {
+  const params = res;
+}
+
+함수명(1, 2, 3, 4, 5);
+```
+
+- 함수를 `표현식(Expression)`으로 만드는 법
+- 변수에 함수를 담는 이유는 `함수에 매개변수`에 전달하려고
+
+```js
+// 함수 표현식 정의
+const 함수명 = function () {};
+//------------------------
+const add = function () {};
+
+function calcFunc(_fn) {
+  add();
+}
+calcFunc(add);
+```
+
+- 기존 함수는 무조건 실행이 됨 내가 타이밍을 제어할 수 없음
+- 콜백함수는 `특정한 이벤트`가 발생시 덩달아서 실행 (그래서 필요한거야)(추후 다시 보자)
+
+## 8. !! 화살표 함수(Arrow Function)
+
+- FE 에서 함수 작성시 많이 볼 수 있는 형태
+- 황용 비율이 높다. 반드시 이해해 보자.
+
+### 8.1. 화살표 함수가 필요한 이유
+
+- 함수가 간략해 집니다
+- 함수가 최적화 됩니다 (메모리 절약, 정능 최적화)
+- this 의 범위가 고정됩니다 (추후 진행)
+- new 를 사용 못 합니다 (추후 진행)
+
+### 8.2. 화살표 함수 작성법 (반드시 이해하세요)
+
+- 매개변수가 없는 경우
+
+```js
+// 기본 함수
+function say() {
+  console.log("안녕");
+}
+
+// 표현식 함수
+const say = function () {
+  console.log("안녕");
+};
+
+// 화살표 함수
+const sayArrow = () => {
+  //=>를 이상 이하로 착각하지 말것
+  console.log("안녕");
+};
+// 실행 코드가 1줄이면 {}블럭 생략 가능
+const sayArrow2 = () => console.log("안녕");
+```
+
+-`매개변수`가 오로지 `1개 있을 때`
+
+```js
+// 기본 함수
+function say(_word) {
+  console.log(_word);
+}
+
+// 표현식 함수
+const say = function (_word) {
+  console.log(_word);
+};
+
+// 화살표 함수
+const sayArrow = (_word) => {
+  //=>를 이상 이하로 착각하지 말것
+  console.log(_word);
+};
+// 실행 코드가 1줄이면 {}블럭 생략 가능
+const sayArrow2 = (_word) => console.log(_word);
+
+// 실행 코드가 1줄이면 {}블럭 생략 가능
+// 매개변수의() 생략 가능
+const sayArrow3 = _word => console.log(_word);
+```
+
+- `매개변수`가 `2개 이상`일 떄
+
+```js
+// 기본 함수
+function say(_word, _name) {
+  console.log(_word + _name);
+}
+// 표현식 함수
+const say = function (_word, _name) {
+  console.log(_word + _name);
+};
+
+// 화살표함수
+const sayArrow = (_word, _name) => {
+  //=>를 이상 이하로 착각하지 말것
+  console.log(_word + _name);
+};
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+const sayArrow2 = (_word, _name) => console.log(_word + _name);
+
+// 실행 코드가 1 줄이면 {} 블럭 생략 가능
+// 매개변수 2개 이상은 () 가 필수
+const sayArrow3 = (_word, _name) => console.log(_word + _name);
+```
+
+## 9. 스코프(Scope)의 이해
+
+- 변수의 활용 가능한 볌위
+- 제일 중요한 것은 `{}` 입니다.
+
+### 9.1. Scope 의 종류 2가지
+
+- 전역 범위 : Global Scope
+- 지역 범위 : Local Scope
+
+### 9.2. 전역 범위
+
+- 프로그램 어디서든 마음대로 접근해서 활용
+
+```js
+// 전역 변수
+const appName = "JavaScript World";
+
+{
+  console.log(appName);
+}
+
+function say() {
+  console.log(appName);
+}
+say();
+```
+
+
+```js
+// 전역 자리
+
+function say() {
+  console.log("안녕");
+}
+
+// 지역 자리
+{
+  say();
+}
+
+say();
+```
+
+- 아래는 정상적으로 실행된다.
+- `function` 키워드는 전역 범위에 등록이 된다.
+- 개발자의 선택권한 없다.
+
+```js
+// 전역 자리
+
+// 지역 자리
+{
+  function say(_name) {
+    console.log(_name + "안녕");
+  }
+  say("홍길동");
+}
+
+say("박길동");
+/* 
+function  은
+js 실행전에 미리 모아서
+전역 스코프에 보관해 둔다._name
+알고 보면 전역 스코프를 위한 메모리 공간이
+별도로 있다는 것입니다.
+*/
+```
+
+- function 은 전역에 등록되므로 예측 곤란
+- 아래 코드는 협업 실패 : `function` 은 전역에 등록해서 쓰자
+- `function`은 지역에 쓰지 마라.
+
+```js
+// 전역 자리
+
+
+// 개발자: 홍길동 지역 자리
+{
+    function say(_name){
+        console.log(_name + "hello");
+}
+say("홍길동");
+
+}
+
+// 개발자: 고길동 지역 자리
+{
+    function say(_name){
+        console.log(_name + "반가워");
+    }
+    say("고길동");
+
+}
+say("테스터");
+```
+
+### 9.3. 지역 범위
+
+- `{}` 블록 안쪽을 `지역범위`라고 합니다.
+
+```js
+{
+  // 지역 변수
+  const appName = "JavaScript World";
+  console.log(appName);
+}
+
+function say() {
+  console.log(appName);
+}
+say();
+```
+
+- 아래는 정상적으로 실행된다.
+- `function 키워드`는 전역 범위에 등록이 된다.
+- 개발자의 선택권한 없다.
+
+```js
+// 전역 자리
+
+// 지역 자리
+{
+  function say(_name) {
+    console.log(_name + " 안녕");
+  }
+  say("홍길동");
+}
+
+say("박길동");
+
+/* 
+function  은
+js 실행전에 미리 모아서
+전역 스코프에 보관해 둔다._name
+알고 보면 전역 스코프를 위한 메모리 공간이
+별도로 있다는 것입니다.
+*/
+```
+
+- function 은 전역에 등록되므로 예측 곤란
+- 아래 코드는 협업 실패 : `function ` 은 전역에 등록해서 쓰자
+- `function ` 은 지역에 코드하지 말자.
+
+```js
+// 전역 자리
+
+// 개발자: 홍길동 지역 자리
+{
+  function say(_name) {
+    console.log(_name + " Hello");
+  }
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  function say(_name) {
+    console.log(_name + " 반가워");
+  }
+  say("고길동");
+}
+
+say("테스터");
+```
+
+- 아래를 추천함.
+
+```js
+// 전역 자리
+function say(_word) {
+  console.log("기본 실행 함수 : " + _word);
+}
+// 개발자: 홍길동 지역 자리
+{
+  const say = function (_name) {
+    console.log(_name + " Hello");
+  };
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  const say = function (_name) {
+    console.log(_name + " 반가워");
+  };
+  say("고길동");
+}
+
+say("테스터");
+```
+
+- 화살표로 고치면
+
+```js
+// 전역 자리
+function say(_word) {
+  console.log("기본 실행 함수 : " + _word);
+}
+// 개발자: 홍길동 지역 자리
+{
+  const say = (_name) => console.log(_name + " Hello");
+  say("홍길동");
+}
+
+// 개발자 : 고길동 지역자리
+{
+  const say = (_name) => console.log(_name + " 반가워");
+  say("고길동");
+}
+
+say("테스터");
+```
+
+## 10. `this` 라는 키워드가 우리를 괴롭힐 겁니다
+
+- this 가 스코프와 연결되면서 혼란스럽다.
+
+### 10.1 전역 스코프의 this 는 `Window` 이다
+
+```js
+console.log(this); // Window{....
+```
+
+### 10.2. function 의 this 는 `Window` 이다
+
+```js
+console.log(this);
+
+function say() {
+    console.log(this);
+    function hi(){
+        console.log(this);
+    }
+    hi();
+}
+say();
+```
+
+```js
+const say = function() {
+    console.log(this);
+    }
+
+say();
+```
+
+### 10.3. function 또는 표현식 함수는 this 사용시 위험한 코드이다.
+
+### 10.4. 화살표 함수의 this 는 `Window` 가 아닐 수 있다
