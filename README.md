@@ -2454,4 +2454,49 @@ say();
 
 ### 10.3. function 또는 표현식 함수는 this 사용시 위험한 코드이다.
 
-### 10.4. 화살표 함수의 this 는 `Window` 가 아닐 수 있다
+- this 는 동일한 스코프를 가르쳐서 값이 변할 위험 존재
+- this 는 물어보지도 않고 `var 변수`를 만들고 window 변수에 등록
+(우리 var 안쓰잖아 일단 넘겨)
+
+```js
+var brand = "nike"; // window에 brand를 등록하는거임  그러니까 var 쓰지마
+
+function now () {  // 함수에서 this.어쩌구 를 쓰면 이것도 window에 등록
+    this.brand = "adidas";
+}
+console.log("함수 실행전 :", brand); // nike
+
+now ();
+console.log ("함수 실행 후 : ", brand); // adidasg
+```
+
+### 10.4. 객체에 속성으로 만든 함수에서의 this
+
+- 객체에서 this 는 객체 전체를 가르킨다.
+- 어? this 가 상황에 따라서 변하는데? `this 가 상황에 따라서 변하는데?`
+
+```js
+const Person = {
+    name: "아이유",
+    age: 20,
+    sayHi: function(){
+        donsole.log(this);
+    },
+};
+
+Person.sayHi();
+```
+
+### 10.5. 객체 생성자 함수로 사용시 this
+
+- 생성된 객체가 this 가 된다.
+
+```js
+// 대문자 즉 Pascal
+function Coffee(){
+    console.log(this);
+}
+
+Coffee();
+//new Coffee();
+```

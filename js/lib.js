@@ -1,7 +1,7 @@
-console.log(this);
-
-const say = () => {
+// 대문자 즉 Pascal
+function Coffee(){
     console.log(this);
-    };
+}
 
-say();
+Coffee();
+//new Coffee();
