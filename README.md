@@ -1371,7 +1371,8 @@ for (let i = 0; i < total; i++) {
 const total = 9;
 for(let i = 1; i <= total; i++ ){
   if( i === 6 ) {
-    break; // 종료하기
+    break; 
+    }// 종료하기
   }
     console.log(i + " 단"); //여기까지하면 1 단, 2 단 ··· 이것만 나온다
 
