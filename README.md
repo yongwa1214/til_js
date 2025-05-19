@@ -3554,3 +3554,114 @@ getData("users", usersParser);
 - 2개의 매개변수를 전달 받는다.
 - resolve 콜백함수  : 성공시 실행함수
 - reject 콜백함수 : 실패시 실행함수
+
+```js
+// 데이터 서버에 자료를 호출함.
+
+function getData(api = "posts") {
+  return new Promise(function (reseolve, reject) {
+    const xhr = new XMLHttpRequest();
+    xhr.open("GET", `https://jsonplaceholder.typicode.com/${api}`);
+    xhr.send();
+    xhr.onload = function () {
+      if (xhr.status === 200) {
+        // 성공
+        reseolve(xhr.response);
+      } else if (xhr.status === 404) {
+        // 실패
+        reject("데이터 없어요");
+      } else if (xhr.status === 505) {
+        // 서버가 죽은건 내탓이 아니잖아요 그래서 reject쓰는 대신에 그냥 console.log(); 찍었습니다
+        console.log("서버가 불안정합니다. 잠시 후 재접속해주세요");
+      }
+    };
+  });
+}
+// 함수 사용
+getData("posts")
+  .then(function (data) {
+      return getDate("comments")
+    })
+  .then(function (data) {
+      return getDate("albums")
+    })
+  .then(function (data) {
+      return getDate("photos")
+    })
+  .then(function (data) {
+      return getDate("todos")
+    })
+  .then(function (data) {
+      return getDate("users")
+    })
+    .catch(function(err){});
+    // then 이라는 함수는 resolve와 같다. 반드시 ()에 함수가 들어가야함
+    // 이러면 알아서 다시 promis로 돌려보내줌
+    // 가독성은 떨어집니다
+
+getData("comments").then().catch(); // 이것들도 똑같이 작업하면 됩니다
+getData("albums").then().catch();
+getData("photos").then().catch();
+getData("todos").then().catch();
+getData("users").then().catch();
+
+```
+
+### 17.6. async / await
+
+- 강력히 추천합니다.
+- Promise 를 편하게 쓰기 위해서 최신 문법 제공
+- `function 키워드 앞쪽에 async` 를 작성합니다
+- `BE 연동 쪽에 await`를 작성합니다.
+
+- 1단계
+
+```js
+function getAllData() {
+  try{
+    
+  }catch(error){};
+}
+
+getAllData();
+```
+
+- 2 단계
+
+```js
+async function getAllData() {
+  try {
+    const apiUrl = "https://jsonplaceholder.typicode.com";
+    // BE 데이터 연동 시도
+    let res = await fetch(`${apiUrl}/posts`);
+    let data = await res.json();
+    console.log(data);
+    // 실제로는 위에까지만
+
+    res = await fetch("https://jsonplaceholder.typicode.com/comments");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/albums");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/photos");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/todos");
+    data = await res.json();
+    console.log(data);
+
+    res = await fetch("https://jsonplaceholder.typicode.com/users");
+    data = await res.json();
+    console.log(data);
+  } catch (error) {
+    console.log("ERROR 입니다. : " + error);
+  }
+}
+
+getAllData();
+
+```
